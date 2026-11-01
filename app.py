@@ -20,6 +20,9 @@ st.markdown("""
         100% { background-position: 0% 50%; }
     }
     
+    /* 1. MOBILE FIX: Force Jars to stay side-by-side on mobile */
+    div[data-testid="column"] { min-width: 30% !important; flex-wrap: nowrap; }
+    
     /* Force playful fonts */
     h1, h2, h3, p, span, label, div { 
         color: #1a1a2e; 
@@ -51,9 +54,9 @@ st.markdown("""
         box-shadow: 5px 5px 20px rgba(0,0,0,0.3); 
         border: 4px solid white; 
     }
-    .jar-spend { background-color: #ff0055; } /* Neon Pink/Red */
-    .jar-save { background-color: #00cc66; }  /* Neon Green */
-    .jar-give { background-color: #ffaa00; }  /* Neon Orange */
+    .jar-spend { background-color: #ff0055; } 
+    .jar-save { background-color: #00cc66; }  
+    .jar-give { background-color: #ffaa00; }  
     
     /* Futuristic glowing Time Machine */
     .time-machine { 
@@ -120,6 +123,7 @@ if 'show_results' not in st.session_state:
     st.session_state.show_results = False
 
 wallet_placeholder = st.empty()
+badge_placeholder = st.empty()
 
 st.markdown("---")
 
@@ -141,6 +145,17 @@ if st.button("✨ Split My Money! ✨"):
         st.balloons()
 
 wallet_placeholder.markdown(f"<div class='wallet-box'>🏦 Your Virtual Wallet Balance 🏦 <br> ₹ {st.session_state.total_savings:,.2f}</div><br>", unsafe_allow_html=True)
+
+# 2. GAMIFICATION BADGES 
+savings = st.session_state.total_savings
+if savings == 0:
+    badge_placeholder.info("🌟 Rank: Beginner Saver! Let's get started!")
+elif savings < 2000:
+    badge_placeholder.success("🥉 Rank: Bronze Coin Collector!")
+elif savings < 5000:
+    badge_placeholder.success("🥈 Rank: Silver Piggy Bank Master!")
+else:
+    badge_placeholder.success("🥇 Rank: Gold Diamond Investor! 💎")
 
 st.markdown("---")
 
@@ -211,3 +226,19 @@ if st.session_state.show_results:
     if st.button("🔄 Click Here to Restart App!"):
         st.session_state.clear()
         st.rerun()
+
+# 3. DOWNLOADABLE CERTIFICATE
+st.markdown("---")
+certificate_text = f"""
+🌟 THE MAGIC WALLET CERTIFICATE 🌟
+----------------------------------
+Official Savings Balance: ₹ {st.session_state.total_savings:,.2f}
+Status: Certified Money Master!
+Keep saving, keep growing! 🚀
+"""
+st.download_button(
+    label="📥 Download My Savings Certificate!",
+    data=certificate_text,
+    file_name="magic_wallet_certificate.txt",
+    mime="text/plain"
+)
