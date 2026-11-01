@@ -91,6 +91,18 @@ st.markdown("""
         margin-top: 20px;
         box-shadow: 4px 4px 15px rgba(0,0,0,0.2);
     }
+    .parent-note {
+        background-color: #ffcccc;
+        padding: 15px;
+        border-radius: 15px;
+        text-align: center;
+        color: #990000 !important;
+        font-weight: bold;
+        font-size: 20px;
+        border: 3px solid #ff0000;
+        margin-top: 20px;
+        box-shadow: 3px 3px 10px rgba(0,0,0,0.2);
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -100,16 +112,13 @@ with colT1:
     st.title("🦄 The Magic Wallet! 🌈✨")
     st.write("### *Learn to save, spend, and grow your money!* 🚀")
 with colT2:
-    # Fun bouncing coin/wallet GIF
     st.image("https://media.giphy.com/media/xTiTnqUxyWbsAXq7Ju/giphy.gif", width=180)
 
-# Initialize state
 if 'total_savings' not in st.session_state:
     st.session_state.total_savings = 0.0
 if 'show_results' not in st.session_state:
     st.session_state.show_results = False
 
-# Placeholder for the top wallet
 wallet_placeholder = st.empty()
 
 st.markdown("---")
@@ -120,7 +129,6 @@ pocket_money = st.number_input("How much pocket money did you get? (₹)", min_v
 
 if st.button("✨ Split My Money! ✨"):
     if pocket_money > 0:
-        # FIX: Directly assign the 40% so it doesn't falsely accumulate every click
         st.session_state.total_savings = (pocket_money * 0.40)
         st.session_state.show_results = True
         
@@ -132,7 +140,6 @@ if st.button("✨ Split My Money! ✨"):
         st.success("🎉 WOOOHOOO! Money split successfully!")
         st.balloons()
 
-# Update the top wallet with the fresh math
 wallet_placeholder.markdown(f"<div class='wallet-box'>🏦 Your Virtual Wallet Balance 🏦 <br> ₹ {st.session_state.total_savings:,.2f}</div><br>", unsafe_allow_html=True)
 
 st.markdown("---")
@@ -168,8 +175,9 @@ if leftover > 0:
     years = target - age
     if years > 0:
         future = leftover * (1.08 ** years)
-        st.write(f"### 🤯 In {years} years, your leftover money becomes: **₹{future:,.0f}** 💰")
+        st.write(f"### 🤯 By investing in a bank at **8% compound interest**, in {years} years your money grows to: **₹{future:,.0f}** 💰")
         st.image("https://media.giphy.com/media/l41YkxvU8c7J7Bba0/giphy.gif", width=250)
+        st.markdown("<div class='parent-note'>🛑 Important Note: Real investing is serious business! Always take your parents' guidance before investing any real money. 👨‍👩‍👧‍👦</div>", unsafe_allow_html=True)
 else:
     st.info("🔒 **Unlock Alert:** When you reach your dream and save extra money, the magical Time Machine will unlock right here!")
 
@@ -177,7 +185,6 @@ else:
 if st.session_state.show_results:
     st.markdown("---")
     
-    # Random Moral Messages
     messages = [
         "Superstar saver! Growing your money today gives you wings tomorrow. 💸✨",
         "Smart move! Every rupee you save is a little worker building your future. 🧱🚀",
@@ -186,7 +193,6 @@ if st.session_state.show_results:
         "You are a money master! Saving and reinvesting is your secret superpower. 🦸‍♂️⚡"
     ]
     
-    # Random Kids Jokes
     jokes = [
         "Why did the kid throw his clock out the window? \n\nBecause he wanted to see time fly! ⏰🕊️",
         "What do you call a bear with no teeth? \n\nA gummy bear! 🐻🍬",
