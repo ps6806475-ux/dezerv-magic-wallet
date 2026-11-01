@@ -4,6 +4,27 @@ import random
 # --- Page Config ---
 st.set_page_config(page_title="The Magic Wallet", page_icon="🦄", layout="wide")
 
+# --- Dynamic GIF Selector (Strictly Money, Savings, and Kids) ---
+if 'main_gif' not in st.session_state:
+    # Piggy banks and wallets
+    st.session_state.main_gif = random.choice([
+        "https://media.giphy.com/media/xTiTnqUxyWbsAXq7Ju/giphy.gif", 
+        "https://media.giphy.com/media/26xBsZZO2M2K1RjAA/giphy.gif",
+        "https://media.giphy.com/media/l4pT26eA0Vb6Nn32w/giphy.gif"
+    ])
+    # Coins, jumping money, and growing coin plants
+    st.session_state.sidebar_gif = random.choice([
+        "https://media.giphy.com/media/3o6gDWzmAzrpi5DQU8/giphy.gif",
+        "https://media.giphy.com/media/xT1XGLtjjDfqIjJCO4/giphy.gif",
+        "https://media.giphy.com/media/ZGH8VtTZMxgw5OqDiW/giphy.gif"
+    ])
+    # Money trees and magical growth for the Time Machine
+    st.session_state.time_gif = random.choice([
+        "https://media.giphy.com/media/VTxmwaCEwSlZm/giphy.gif",
+        "https://media.giphy.com/media/l41YkxvU8c7J7Bba0/giphy.gif",
+        "https://media.giphy.com/media/3o7TKSjRrfIPjeiVyM/giphy.gif"
+    ])
+
 # --- Extreme Colorful UI, CSS, & Animations ---
 st.markdown("""
 <style>
@@ -18,6 +39,12 @@ st.markdown("""
         0% { background-position: 0% 50%; }
         50% { background-position: 100% 50%; }
         100% { background-position: 0% 50%; }
+    }
+    
+    /* Sidebar Styling */
+    [data-testid="stSidebar"] {
+        background-color: #fff3e0 !important;
+        border-right: 5px dashed #ff9933;
     }
     
     /* 1. MOBILE FIX: Force Jars to stay side-by-side on mobile */
@@ -109,13 +136,28 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
+# --- SIDEBAR: Story & Instructions ---
+with st.sidebar:
+    st.header("📖 How to Play!")
+    st.image(st.session_state.sidebar_gif, width=200)
+    st.write("### Meet Rahul! 👦")
+    st.write("Rahul got **₹1000** for his pocket money. He doesn't want to just spend it all at once!")
+    st.write("Here is his Magic Trick:")
+    st.write("🍦 **₹500 (50%)** goes to his Spend Jar for snacks and fun today.")
+    st.write("🎯 **₹400 (40%)** goes to his Save Jar to buy a big toy later.")
+    st.write("🎁 **₹100 (10%)** goes to his Give Jar to buy a gift for his little sister.")
+    st.write("---")
+    st.write("### 🛸 The Time Machine")
+    st.write("When Rahul saves enough for his toy, he puts his leftover money into the **Time Machine** to watch it grow bigger and bigger for his future!")
+    st.write("### 👉 Now it's YOUR turn!")
+
 # --- Header & Initialization ---
 colT1, colT2 = st.columns([3, 1])
 with colT1:
     st.title("🦄 The Magic Wallet! 🌈✨")
     st.write("### *Learn to save, spend, and grow your money!* 🚀")
 with colT2:
-    st.image("https://media.giphy.com/media/xTiTnqUxyWbsAXq7Ju/giphy.gif", width=180)
+    st.image(st.session_state.main_gif, width=180)
 
 if 'total_savings' not in st.session_state:
     st.session_state.total_savings = 0.0
@@ -191,7 +233,7 @@ if leftover > 0:
     if years > 0:
         future = leftover * (1.08 ** years)
         st.write(f"### 🤯 By investing in a bank at **8% compound interest**, in {years} years your money grows to: **₹{future:,.0f}** 💰")
-        st.image("https://media.giphy.com/media/l41YkxvU8c7J7Bba0/giphy.gif", width=250)
+        st.image(st.session_state.time_gif, width=250)
         st.markdown("<div class='parent-note'>🛑 Important Note: Real investing is serious business! Always take your parents' guidance before investing any real money. 👨‍👩‍👧‍👦</div>", unsafe_allow_html=True)
 else:
     st.info("🔒 **Unlock Alert:** When you reach your dream and save extra money, the magical Time Machine will unlock right here!")
